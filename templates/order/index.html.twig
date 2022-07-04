@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif de commande
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Récapitulatif de commande</h1>
+
+		<ul class="responsive-table">
+			<li class="table-header">
+				<div class="col col1">Image</div>
+				<div class="col col2">Produit</div>
+				<div class="col col3">Taille</div>
+				<div class="col col4">Quantité</div>
+			</li>
+			{#  Variable twig #}
+			{% set total = null %}
+			{% for item in cart %}
+				<li class="table-row">
+					<div class="col col1">
+						{% for img in item.product.img %}
+							<img src="/upload/images/products/{{img.url}}" alt="{{img.name}}">
+						{% endfor %}
+					</div>
+					<div class="col col2">{{item.product.name}}</div>
+					<div class="col col3">
+						{% for size in item.quantity %}
+							<p>{{size.size}}</p>
+						{% endfor %}
+					</div>
+					<div class="col col4">
+						{% for qt in item.quantity %}
+							<p>{{qt.quantity}}</p>
+						{% endfor %}
+					</div>
+				</li>
+				{% for qt in item.quantity %}
+					{% set total = total + item.product.price * qt.quantity %}
+				{% endfor %}
+			{% endfor %}
+		</ul>
+		<div>
+			<p class="text-center">Total :
+				{{(total / 100)|number_format(2, ',', ' ')}}€</p>
+		</div>
+		<div class="addressCart">
+			<div
+				class="">
+				{# recupere les données de l'utilisateur en twig #}
+				{% if app.user.logement.snapshot != [] %}
+
+					{% set toHTML %}
+					{{form_start(form)}}
+					<div>
+						<h3>Choisir une adresse de livraison</h3>
+						<div class="form">
+							{{form_widget(form.address)}}
+							<div class="sub">
+								{{form_widget(form.save)}}
+							</div>
+						</div>
+					</div>
+					{{form_end(form)}}
+
+					{% endset %}
+					{# Remplace tout les elements defini  #}
+					{{ toHTML|replace({ "%br%" : "<br />", "%pOpen%": "<small>", "%pClose%": "</small>" })  | raw}}
+				{% else %}
+					<p>Vous n'avez pas d'adresse enregistré, cliquez
+						<a href="{{ path("addLogement") }}" title="Vous n'avez pas d'adresse enregistré" class="btn">ici</a>
+						pour en ajouter une.</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

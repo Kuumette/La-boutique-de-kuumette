@@ -1,0 +1,15 @@
+{% block stylesheets %}
+	{{ encore_entry_link_tags('admin') }}
+
+{% endblock %}
+
+{% for img in field.value %}
+	{%- set url = ea_url()
+    .setController('Path\\To\\Your\\CategoryCrudController')
+    .setAction('detail')
+    .setEntityId(img.id)
+  -%}
+	<img class='adminImg' src="/upload/images/products/{{img.url}}" alt='{{img.name}}' {% if not loop.last %} , {% endif %}/>
+{% else %}
+	<span class="badge badge-secondary">None</span>
+{% endfor %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace utilisateur
+{% endblock %}
+
+{% block body %}
+	{# Espace utilisateur #}
+	<h1>bienvenue dans l'espace utilisateur</h1>
+	<main class="container">
+		<div class="account">
+			<div class="logement">
+				<a href="{{ path('viewLogement')}}" title="Voir mes logements" class="btn">
+					Voir mes logements
+				</a>
+			</div>
+			<div class="order">
+				<a href="{{ path('orderAccount')}}" title="Voir mes commandes" class="btn">
+					Voir mes commandes
+				</a>
+			</div>
+		</div>
+	</main>
+{% endblock %}

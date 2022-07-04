@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte | Détail commande
+{% endblock %}
+
+{% block body %}
+	{# Apercu du détail d'une commande #}
+	<h1>Détail de ma commande</h1>
+	<hr>
+	<div class="container">
+		<p>commande passer le :
+			{{order.date|date('d/m/y')}}</p>
+		<p>ref :
+			{{order.id}}</p>
+		<ul class="responsive-table">
+			<li class="table-header">
+				<div class="col col2">Produit</div>
+				<div class="col col6">Quantité</div>
+				<div class="col col3">Taille</div>
+				<div class="col col4">Prix unité</div>
+				<div class="col col5">Total</div>
+			</li>
+			{% for order in order.orderLines %}
+				<li class="table-row">
+					<div class="col col2">{{order.article}}</div>
+					<div class="col col6">{{order.quantity}}</div>
+					<div class="col col3">{{order.size}}</div>
+					<div class="col col4">{{order.price | number_format(2, '.', ' ') }}€</div>
+					<div class="col col5">{{order.price * order.quantity| number_format(2, '.', ' ') }}€</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% for size in field.value %}
+	{%- set url = ea_url()
+    .setController('Path\\To\\Your\\CategoryCrudController')
+    .setAction('detail')
+    .setEntityId(size.id)
+  -%}
+	<small href="{{ url }}">
+		{{ size.name }}
+		{% if not loop.last %},
+		{% endif %}
+	</small>
+{% else %}
+	<span class="badge badge-secondary">None</span>
+{% endfor %}

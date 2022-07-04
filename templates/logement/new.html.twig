@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Logement
+{% endblock %}
+
+{% block body %}
+	{# vue de création d'un logement qui appel le formulaire logement #}
+	<h1>Create new Logement</h1>
+
+	{{ include('logement/_form.html.twig') }}
+
+	<a href="{{ path('app_logement_index') }}" title="retour à la liste">retour à la liste</a>
+{% endblock %}

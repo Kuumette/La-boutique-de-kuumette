@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte | Mes adresses
+{% endblock %}
+
+{% block body %}
+
+	{# Apercu de tout les logements de l'utilisateur  #}
+	<h1>Mes adresses</h1>
+	<hr>
+	<div class="container">
+		<a class="btn" href="{{path('addLogement')}}">Ajouter une adresse</a>
+		{% if app.user.logement|length == 0 %}
+			<p>Vous n'avez pas d'adresse enregistré.</p>
+			{# <a class="btn btn-dark mt-2 lien" href="{{path('addLogement')}}">Ajouter une adresse</a> #}
+		{% endif %}
+		<ul class="responsive-table">
+			<li class="table-header">
+				<div class="col col1">Adresse</div>
+				<div class="col col6">Ville</div>
+				<div class="col col3">Pays</div>
+				<div class="col col4">Modifier</div>
+				<div class="col col5">Supprimer</div>
+
+			</li>
+			{% for address in app.user.logement %}
+				<li class="table-row">
+					<div class="col col1">{{address.address}}</div>
+					<div class="col col6">{{address.city}}</div>
+					<div class="col col3">{{address.country}}</div>
+					<div class="col col4">
+						<a class="btn" href="{{ path('editLogement', {'id': address.id}) }}" title="Modifier logement">
+							<i class="bi bi-pencil-fill"></i>Modifier
+						</a>
+					</div>
+					<div class="col col5">
+						<a class="btn" href="{{ path('deleteLogement', {'id': address.id}) }}" title="Supprimer logement">
+							<i class="bi bi-trash-fill"></i>Supprimer
+						</a>
+					</div>
+
+				</li>
+
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

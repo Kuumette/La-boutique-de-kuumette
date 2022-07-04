@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte | Mes commandes
+{% endblock %}
+
+{% block body %}
+	{# Apercu des commandes passer #}
+	<h1>Récapitulatif de mes commandes</h1>
+	<hr>
+	{% if orders|length == 0 %}
+		<p>Vous n'avez pas fait de commande.</p>
+	{% endif %}
+	<div class="container">
+		<ul class="responsive-table">
+			<li class="table-header">
+				<div class="col col1">Référence</div>
+				<div class="col col2">Statut</div>
+				<div class="col col3">Date de la commande</div>
+				<div class="col col4">Nombre de Produit(s)</div>
+				<div class="col col5">Total</div>
+				<div class="col col6">Détail</div>
+			</li>
+			{% for order in orders %}
+				<li class="table-row">
+					<div class="col col1">
+						{{order.id}}
+					</div>
+					<div class="col col2">
+						{% if order.isPaid == 1 %}
+							Commande Payée
+						{% else %}
+							Commande Annulé
+						{% endif %}
+					</div>
+					<div class="col col3">{{order.date|date("d/m/y")}}</div>
+					<div class="col col4">{{order.orderLines|length}}</div>
+					<div class="col col5">{{ (order.priceTotal)|number_format(2, '.', ' ' )}}</div>
+					<div class="col col6">
+						<a href="{{path('orderDetail', {'id': order.id})}}" title="Détail commande" class="btn">Détail</a>
+					</div>
+				</li>
+
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

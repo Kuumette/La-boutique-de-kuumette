@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique Kuumette | Détail
+{% endblock %}
+
+{% block body %}
+	{# Détail de l'article #}
+	<div id="product-{{article.id}}">
+		<main class="descArticle">
+
+			<div class="left-column">
+				{% for img in article.img %}
+					<img data-image="red" class="active" src="/upload/images/products/{{img.url}}" alt="{{img.name}}">
+				{% endfor %}
+			</div>
+
+			<div class="right-column">
+
+				<div class="product-description">
+
+					<h2>{{article.name}}</h2>
+					<p>{{article.description}}</p>
+				</div>
+
+				<div class="product-configuration">
+
+					<div class="product-color">
+						<span>Taille</span>
+						<select id="size">
+							{% for size in article.size %}
+								<option value="{{size.name}}" id="choices">{{size.name}}</option>
+							{% endfor %}
+						</select>
+
+					</div>
+
+					<div class="cable-config">
+						<form>
+							<small>Choisir la Quantité</small>
+							<input type="number" class="form-control" name='quantity' value='1' aria-label="Recipient's username" aria-describedby="button-addon2">
+							<button data-size="0" data-product="{{article.id}}" class="btn btn-outline-secondary atc-btn" type="submit" id="button-addon2">
+								<i class="bi bi-bag-plus">
+									Ajouté au panier</i>
+							</button>
+
+						</form>
+					</div>
+				</div>
+
+				<div class="product-price">
+					<span>{{(article.price / 100)|number_format(2, ',', ' ')}}€</span>
+
+				</div>
+			</div>
+		</main>
+	</div>
+
+{% endblock %}

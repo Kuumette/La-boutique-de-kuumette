@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Boutique de Kuumette
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-md navbar-light fixed-top ">
+				<div class="container-fluid">
+					<img src="/upload/images/logo/logo.png" alt="Boutique Kuumette"/>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarCollapse">
+						<ul class="navbar-nav me-auto mb-2 mb-md-0">
+							<li class="nav-item">
+								<a class="nav-link" href="{{path('app_home')}}" title="Boutique">Boutique</a>
+							</li>
+							{#  Si un utilisateur et connecter #}
+							{% if app.user %}
+								<li class="nav-item">
+
+									<a class="nav-link" href="{{path('account')}}" title="Espace utilisateur">
+										<i class="bi bi-eye-slash-fill"></i>
+										<small>({{app.user.firstName}})</small>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('app_logout')}}" title="Déconnexion">
+										<i class="bi bi-eye-slash-fill"></i>
+										<small>Déconnexion</small>
+									</a>
+								</li>
+								{#  sinon afficher connection ou inscription #}
+							{% else %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('app_login')}}" title="Connexion">Connexion</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('register')}}" title="Inscription">Inscription</a>
+								</li>
+							{% endif %}
+							<li class="nav-item">
+								<a class="nav-link" href="{{path('cart')}}" tile="Panier">
+									<i class="bi bi-cart-check-fill"></i>
+									<small>Panier</small>
+								</a>
+							</li>
+
+						</ul>
+
+					</div>
+				</div>
+			</nav>
+		</header>
+
+
+		{% block body %}{% endblock %}
+	</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier
+{% endblock %}
+
+{% block body %}
+	{# Panier #}
+	<div class="container">
+		<h1>Panier !</h1>
+		{# Si cart et superieur à 0 #}
+		{% if cart|length > 0 %}
+			<ul class="responsive-table">
+				<li class="table-header">
+					<div class="col col1">Image</div>
+					<div class="col col2">Produit</div>
+					<div class="col col3">Taille</div>
+					<div class="col col4">Quantité</div>
+					<div class="col col5">Prix</div>
+					<div class="col col6">Total</div>
+					<div class="col col7">Action</div>
+				</li>
+				{# Variable twig #}
+				{% set total = null %}
+
+				{% for item in cart %}
+					<li class="table-row">
+						<div class="col col1">
+							{% for img in item.article.img %}
+								<img src="/upload/images/products/{{img.url}}" alt="{{img.name}}">
+							{% endfor %}
+						</div>
+						<div class="col col2">{{item.article.name}}</div>
+						<div class="col col3">{{item.size}}</div>
+						<div class="col col4">
+							<a href="{{ path('decrease', {'id': item.article.id,'size': item.size }) }}" title="Enlever une quantité" class="btn">
+								<i class="bi bi-cart-dash-fill"></i>
+							</a>
+							{{item.quantity}}
+
+							<a href="{{ path('addCart', {'id': item.article.id, 'size': item.size}) }}" title="Ajouter un quantité" class="btn">
+								<i class="bi bi-cart-plus-fill"></i>
+							</a>
+						</div>
+						<div class="col col5" data-label="Prix / U">{{(item.article.price / 100)|number_format(2, ',', ' ')}}€</div>
+						<div class="col col6" data-label="Total">{{(item.article.price/100 * item.quantity)|number_format(2, ',', ' ')}}€</div>
+						<div class="col col7">
+							<a href="{{path('CartRemoveOne', {'id': item.article.id})}}" title="Supprimer l'article" class="btn">
+								<i class="fas fa-car-crash">Delete</i>
+							</a>
+						</div>
+
+					</li>
+
+					{% set total = total + item.article.price * item.quantity %}
+				{% endfor %}
+			</ul>
+			<div>
+				<p class="text-center">Total :
+					{{(total / 100)|number_format(2, ',', ' ')}}€</p>
+			</div>
+			<div class="text-center">
+				<a href="{{path('order')}}" title="Validez ma commande" class="btn">Validez ma commande</a>
+			</div>
+		</section>
+		{# Sinon cart et vide #}
+	{% else %}
+		<div>
+			<h2>Votre panier est vide</h2>
+		</div>
+
+
+	{% endif %}
+</div>{% endblock %}

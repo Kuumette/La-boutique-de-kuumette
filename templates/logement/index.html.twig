@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logement
+{% endblock %}
+
+{% block body %}
+	{# Apercu de tout les logements de l'utilisateur  #}
+	<h1>Logement index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Country</th>
+				<th>City</th>
+				<th>Address</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for logement in logements %}
+				<tr>
+					<td>{{ logement.id }}</td>
+					<td>{{ logement.country }}</td>
+					<td>{{ logement.city }}</td>
+					<td>{{ logement.address }}</td>
+					<td>
+						<a href="{{ path('app_logement_show', {'id': logement.id}) }}" title="show">show</a>
+						<a href="{{ path('app_logement_edit', {'id': logement.id}) }}" title="edit">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_logement_new') }}" title="Nouveau logement">Nouveau logement</a>
+
+
+{% endblock %}

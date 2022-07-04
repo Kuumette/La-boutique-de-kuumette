@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique Kuumette
+{% endblock %}
+
+{% block body %}
+	{# Page d'acceuil #}
+	<h1>Bienvenue dans la boutique Kuumette</h1>
+	<div class="container">
+		<div class="filter">
+			{% for category in category %}
+				<a href="{{ path('categoryPosts', { name: category.name}) }}" title="{{ category.name}}">
+					{{category}}
+				</a>
+			{% endfor %}
+			<a href="{{path('app_home') }}" title="Home">
+				All
+			</a>
+
+		</div>
+
+		<ul class="cards">
+			{% for article in articles %}
+				<div class="card">
+					<div id="product-{{article.id}}">
+
+						{% for img in article.img %}
+							<img src="/upload/images/products/{{img.url}}" class="card__image" alt="{{img.name}}">
+						{% endfor %}
+
+						<div class="card__overlay">
+							<div class="card__header">
+
+								<div class="card__header-text">
+									<h3 class="card__title">{{article.name}}</h3>
+									<span class="card__status">{{(article.price / 100)|number_format(2, ',', ' ')}}€</span>
+								</div>
+								<a href="{{path('descId', { 'name' : article.name })}}" title="Déscription de l'article" class="btn">Description</a>
+							</div>
+							<div class="card__description">
+								<label for="size"></label>
+								<select id="size">
+
+									{% for size in article.size %}
+										<option value="{{size.name}}" id="choices">{{size.name}}</option>
+									{% endfor %}
+
+								</select>
+								<br/>
+								<form>
+									<small>Choisir la Quantité</small>
+									<input type="number" class="form-control" name='quantity' value='1' aria-label="Recipient's username" aria-describedby="button-addon2">
+									<button data-size="0" data-product="{{article.id}}" class="btn btn-outline-secondary atc-btn" type="submit" id="button-addon2">
+										<i class="bi bi-bag-plus"></i>
+									</button>
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+		</ul>
+	</div>
+	{# Appel de la pagination #}
+	{{ knp_pagination_render(pagination) }}
+
+{% endblock %}
