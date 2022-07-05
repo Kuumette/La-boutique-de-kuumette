@@ -47,11 +47,19 @@ nav {
 /* H1 */
 h1 {
 	text-align: center;
-	margin-top: 3em;
+	/* margin-top: 3em; */
 }
-h3 {
-	text-align: center;
+header {
+	padding-bottom: 10em;
 }
+#nameArticle {
+	width: 100%;
+	position: fixed;
+	z-index: 50;
+	margin-top: 10.5em;
+	opacity: 1;
+}
+
 /* a */
 a {
 	text-decoration: none;

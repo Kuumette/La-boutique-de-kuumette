@@ -1,6 +1,10 @@
+const nameArticle = document.querySelector("#nameArticle");
+const nameArticleP = nameArticle.children[0];
+
 /**
  * Fonction addProduct qui permette de mettre à jour l'article, la quantité et la taille dans le panier
  */
+
 function addProduct(idProduct, qtProduct, sizeProduct) {
 	fetch(
 		`http://127.0.0.1:8000/api/cart/add/${idProduct}/${qtProduct}/${sizeProduct}`,
@@ -14,8 +18,17 @@ function addProduct(idProduct, qtProduct, sizeProduct) {
 				size: sizeProduct,
 			}),
 		}
-	).then((res) => res.text());
+	)
+		.then((res) => res.json())
+		.then((res) => {
+			nameArticle.removeAttribute("hidden");
+			nameArticleP.innerHTML = ` ${res[0]["name"]} bien ajouté au panier`;
+			setTimeout(() => {
+				nameArticle.setAttribute("hidden", true);
+			}, 2000);
+		});
 }
+
 /**
  * Au chargement du DOM
  */

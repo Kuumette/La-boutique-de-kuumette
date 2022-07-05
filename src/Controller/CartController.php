@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Services\Cart;
+use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -42,12 +44,13 @@ class CartController extends AbstractController
      * @param int $size valeur de la taille
      */
     #[Route('/api/cart/add/{idProduct}/{quantity}/{size}', name: 'cartAdd')]
-    public function cartAdd(SessionInterface $session, int $idProduct, Request $request, int $quantity, int $size): Response
+    public function cartAdd(SessionInterface $session, int $idProduct, Request $request, int $quantity, int $size, ArticleRepository $article): Response
     {
         $idProduct = (string) $idProduct;
         $quantity = (int) $quantity;
         $size = (int) $size;
         $cart = $session->get('cart', []);
+        $name = $article->findBy(array('id' => $idProduct))[0]->getName();
    
         /**
          * Si une clé existe dans le tableau et quel et pas vide
@@ -74,7 +77,7 @@ class CartController extends AbstractController
                     /**
                      * Sinon je push dans un tableau ma taille et ma quantité
                      */
-                    $cart[$idProduct][] = ['size' => $size, 'quantity' => $quantity];
+                    $cart[$idProduct][] = ['size' => $size, 'quantity' => $quantity, 'name' => $name];
                 }
             }
         }
@@ -84,13 +87,14 @@ class CartController extends AbstractController
              * Sinon je push dans un tableau ma taille et ma quantité
              */
             $cart[$idProduct] = [];
-            $cart[$idProduct][] = ['size' => $size, 'quantity' => $quantity];
+            $cart[$idProduct][] = ['size' => $size, 'quantity' => $quantity, 'name' => $name];
         }
-
+        
         
         $session->set('cart', $cart);
 
-        return $this->redirectToRoute("cart");
+        //return $this->redirectToRoute("cart");
+        return new JsonResponse($cart[$idProduct]);
     }
 
     /**
