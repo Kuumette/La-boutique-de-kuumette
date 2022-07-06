@@ -23,6 +23,7 @@ class RegisterType extends AbstractType
             'label' => 'Email',
             'attr' => [
                 'placeholder' => 'deschamps@gmail.com'
+                
             ]
         ])
         ->add('lastName', TextType::class, [
@@ -45,14 +46,14 @@ class RegisterType extends AbstractType
         ])
         ->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
-            'invalid_message' => 'Les mot de passe ne sont pas identiques',
+            'invalid_message' => 'Les mot de passes ne sont pas identiques',
             'constraints' => [
                 new NotBlank([
                     'message' => 'Please enter a password',
                 ]),
                 new Length([
                     'min' => 6,
-                    'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    'minMessage' => 'le mot de passe doit contenir au moins {{ limit }} charactère',
                     // max length allowed by Symfony for security reasons
                     'max' => 50,
                 ]),
@@ -77,12 +78,7 @@ class RegisterType extends AbstractType
                 ]
             ],
         ])
-        ->add('save', SubmitType::class, [
-            'label' => 'S\'inscrire',
-            'attr' => [
-                'class' => 'mt-2 btn btn-dark'
-            ]
-        ])
+    
     ;
     }
 

@@ -74,13 +74,13 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    public function Search($value)
-    {
-        return $this->createQueryBuilder('a')
-        ->andWhere('a.name LIKE :val')
-        ->setParameter('val', "%" . $value . "%")
-        ->setMaxResults(10)
-        ->getQuery()
-        ->getResult();
-    }
+    // public function Search($value)
+    // {
+    //     return $this->createQueryBuilder('a')
+    //     ->andWhere('a.name LIKE :val')
+    //     ->setParameter('val', "%" . $value . "%")
+    //     ->setMaxResults(10)
+    //     ->getQuery()
+    //     ->getResult();
+    // }
 }

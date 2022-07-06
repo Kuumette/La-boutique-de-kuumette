@@ -7,35 +7,23 @@
 
 	{# Détail de l'article #}
 	<div id="product-{{article.id}}">
-		<main class="descArticle">
-
-			<div class="left-column">
-				{% for img in article.img %}
-					<img data-image="red" class="active" src="/upload/images/products/{{img.url}}" alt="{{img.name}}">
-				{% endfor %}
-			</div>
-
-			<div class="right-column">
-
-				<div class="product-description">
-
+		<h1>Déscription
+			{{article.name}}</h1>
+		<main class="container">
+			<div class="flex">
+				<article class="left">
+					{% for img in article.img %}
+						<img data-image="red" class="active" src="/upload/images/products/{{img.url}}" alt="{{img.name}}">
+					{% endfor %}
+				</article>
+				<article class="right">
 					<h2>{{article.name}}</h2>
 					<p>{{article.description}}</p>
-				</div>
-
-				<div class="product-configuration">
-
-					<div class="product-color">
-						<span>Taille</span>
-						<select id="size">
-							{% for size in article.size %}
-								<option value="{{size.name}}" id="choices">{{size.name}}</option>
-							{% endfor %}
-						</select>
-
-					</div>
-
-					<div class="cable-config">
+					<span>Taille</span>
+					<select id="size">
+						{% for size in article.size %}
+							<option value="{{size.name}}" id="choices">{{size.name}}</option>
+						{% endfor %}
 						<form>
 							<small>Choisir la Quantité</small>
 							<input type="number" class="form-control" name='quantity' value='1' aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -45,15 +33,10 @@
 							</button>
 
 						</form>
-					</div>
+						<span>{{(article.price / 100)|number_format(2, ',', ' ')}}€</span>
+					</article>
 				</div>
+			</main>
+		</div>
 
-				<div class="product-price">
-					<span>{{(article.price / 100)|number_format(2, ',', ' ')}}€</span>
-
-				</div>
-			</div>
-		</main>
-	</div>
-
-{% endblock %}
+	{% endblock %}
