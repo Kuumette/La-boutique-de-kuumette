@@ -30,16 +30,26 @@ class RegisterType extends AbstractType
             'label' => 'Nom',
             'attr' => [
                 'placeholder' => 'Deschamps'
+            ],
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Merci de renseigner un nom',
+                ]),
             ]
         ])
         ->add('firstName', TextType::class, [
             'label' => 'Prénom',
             'attr' => [
                 'placeholder' => 'Patrique'
+            ],
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Merci de renseigner un prénom',
+                ]),
             ]
         ])
         ->add('phone', TextType::class, [
-            'label' => 'Telephone',
+            'label' => 'Telephone (Français)',
             'attr' => [
                 'placeholder' => '0600010203'
             ]
@@ -49,11 +59,11 @@ class RegisterType extends AbstractType
             'invalid_message' => 'Les mot de passes ne sont pas identiques',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Please enter a password',
+                    'message' => 'Merci de renseigner un mot de passe',
                 ]),
                 new Length([
-                    'min' => 6,
-                    'minMessage' => 'le mot de passe doit contenir au moins {{ limit }} charactère',
+                    'min' => 10,
+                    'minMessage' => 'le mot de passe doit contenir au moins {{ limit }} caractères',
                     // max length allowed by Symfony for security reasons
                     'max' => 50,
                 ]),
@@ -66,7 +76,7 @@ class RegisterType extends AbstractType
             
             'required' => true,
             'first_options'  => [
-                'label' => 'Mot de passe',
+                'label' => 'Mot de passe (minimum 10 caractères 1 minuscule, 1 majuscule, 1 chiffre et 1 caractere spécial)',
                 'attr' => [
                     'placeholder' => '******'
                 ]

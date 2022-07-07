@@ -20,7 +20,7 @@ class LogementType extends AbstractType
                 ]
             ])
             ->add('city', TextType::class, [
-                'label' => 'Villes',
+                'label' => 'Ville',
                 'attr' => [
                     'class' => 'form-city'
                 ]

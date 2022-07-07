@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Un compte avec ce mail existe déjà')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -17,21 +20,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * Ne fais pas confiance à l'uilisateur
+     */
+    #[Assert\Email(
+        message: 'L\'email n\'est pas valide',
+    )]
+    #[Assert\NotBlank(
+        message: 'Merci de renseigner un email'
+    )]
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    /**
+     * regex qui verifie si mon mot de passe contient bien min 10 caractères 1 minuscule 1 majuscule 1 chiffre 1 caractères spécial
+     */
+    #[Assert\Regex(
+        pattern: '/^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/i',
+        htmlPattern: '^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$',
+        message: 'Le mot de passe n\'est pas valide',
+    )]
     #[ORM\Column(type: 'string')]
     private $password;
 
+    #[Assert\NotBlank(
+        message: 'Merci de renseigner un prénom'
+    )]
     #[ORM\Column(type: 'string', length: 50)]
     private $firstname;
 
+    #[Assert\NotBlank(
+        message: 'Merci de renseigner un nom'
+    )]
     #[ORM\Column(type: 'string', length: 50)]
     private $lastname;
 
+    #[Assert\Regex(
+        pattern: '/(0|(\\+33)|(0033))[1-9][0-9]{8}/i',
+        htmlPattern: '(0|(\\+33)|(0033))[1-9][0-9]{8}',
+        message: 'Le numéro de téléphone n\'est pas valide',
+    )]
+    #[Assert\NotBlank(
+        message: 'Merci de renseigner un numéro de téléphone'
+    )]
     #[ORM\Column(type: 'string', length: 10)]
     private $phone;
 
